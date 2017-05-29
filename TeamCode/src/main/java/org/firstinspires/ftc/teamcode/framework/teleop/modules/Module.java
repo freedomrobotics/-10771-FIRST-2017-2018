@@ -16,6 +16,13 @@ public class Module {
         this.hardware = t.getHardware();
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+    public void setEnabled(boolean e) {
+        enabled = e;
+    }
+
     public void init() {}
     public void init_loop() {}
     public void loop() {}

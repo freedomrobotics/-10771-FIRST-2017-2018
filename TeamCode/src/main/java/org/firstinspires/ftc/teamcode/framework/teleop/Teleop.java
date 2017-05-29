@@ -24,7 +24,7 @@ public class Teleop extends OpMode {
     @Override
     public void init() {
         modules = new ArrayList<Module>();
-        hardware = new Hardware();
+        hardware = new Hardware(this);
         hardware.init();
 
         //REGISTER MODULES HERE
@@ -52,14 +52,18 @@ public class Teleop extends OpMode {
     @Override
     public void init_loop() {
         for (Module m : modules) {
-            m.init_loop();
+            if (m.isEnabled()) {
+                m.init_loop();
+            }
         }
     }
 
     @Override
     public void loop() {
         for (Module m : modules) {
-            m.loop();
+            if (m.isEnabled()) {
+                m.loop();
+            }
         }
     }
 
