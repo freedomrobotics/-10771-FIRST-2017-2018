@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.framework;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -14,8 +15,8 @@ public class Hardware {
     public DcMotor left;
     HardwareMap hwMap;
 
-    public Hardware(Teleop t) {
-        hwMap = t.hardwareMap;
+    public Hardware(OpMode o) {
+        hwMap = o.hardwareMap;
     }
 
     public void init() {
