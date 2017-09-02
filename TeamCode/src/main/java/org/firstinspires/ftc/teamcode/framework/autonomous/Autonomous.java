@@ -49,8 +49,41 @@ public class Autonomous extends LinearOpMode {
             }
         }
 
-        //TODO: Create some sort of interface here for selecting an autonomous program.
-        AutoProgram a = programs.get(0);
+        int selected = 0;
+        boolean lockedIn = false;
+        boolean keyDown = false;
+
+        while (!lockedIn) {
+
+            //Draw all programs.
+            for (int i = 0; i < programs.size(); i++) {
+                String currentName = "";
+                if (selected == i) {
+                    currentName += "> ";
+                }
+                currentName += programs.get(i).getName();
+                telemetry.addLine(currentName);
+            }
+            telemetry.update();
+
+            //handle selection of program to run.
+            if (gamepad1.dpad_up && keyDown == false) {
+                selected = selected == 0 ? 0 : selected - 1;
+                keyDown = true;
+            } else if (gamepad1.dpad_down && keyDown == false) {
+                selected = selected == programs.size() - 1 ? programs.size() - 1 : selected + 1;
+                keyDown = true;
+            } else {
+                keyDown = false;
+            }
+
+            //handle locking in.
+            if (gamepad1.start) {
+                lockedIn = true;
+            }
+        }
+
+        AutoProgram a = programs.get(selected);
 
         //initialize the auto program...
         a.init();
