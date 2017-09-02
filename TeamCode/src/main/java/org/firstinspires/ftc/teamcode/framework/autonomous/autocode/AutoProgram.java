@@ -28,6 +28,6 @@ public class AutoProgram {
         return this.name;
     }
 
-    public void init() {}
-    public void run() {}
+    public void init() throws InterruptedException {}
+    public void run() throws InterruptedException {}
 }

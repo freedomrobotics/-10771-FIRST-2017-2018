@@ -13,14 +13,10 @@ public class TestAuto extends AutoProgram {
     }
 
     @Override
-    public void run() {
+    public void run() throws InterruptedException {
         hardware.right.setPower(1);
         hardware.left.setPower(1);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        Thread.sleep(1000);
         hardware.right.setPower(0);
         hardware.left.setPower(0);
     }

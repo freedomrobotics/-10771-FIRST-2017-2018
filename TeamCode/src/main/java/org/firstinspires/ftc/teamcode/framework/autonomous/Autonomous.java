@@ -86,7 +86,12 @@ public class Autonomous extends LinearOpMode {
         AutoProgram a = programs.get(selected);
 
         //initialize the auto program...
-        a.init();
+        try {
+            a.init();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            requestOpModeStop();
+        }
 
         telemetry.clearAll();
         telemetry.addLine("Program " + a.getName() + " has been initialized.");
@@ -98,7 +103,13 @@ public class Autonomous extends LinearOpMode {
         telemetry.clearAll();
         telemetry.addLine("Program " + a.getName() + " running...");
 
-        a.run(); //run autonomous.
+        //run autonomous
+        try {
+            a.run();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            requestOpModeStop();
+        }
     }
 
     public Hardware getHardware() {
