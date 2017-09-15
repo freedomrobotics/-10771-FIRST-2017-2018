@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.framework.Hardware;
 import org.firstinspires.ftc.teamcode.framework.autonomous.autocode.AutoProgram;
+import org.firstinspires.ftc.teamcode.framework.autonomous.components.AutoComponents;
 import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
@@ -87,6 +88,8 @@ public class Autonomous extends LinearOpMode {
 
         //initialize the auto program...
         try {
+            new AutoComponents(this);
+            AutoComponents.init();
             a.init();
         } catch (InterruptedException e) {
             e.printStackTrace();
