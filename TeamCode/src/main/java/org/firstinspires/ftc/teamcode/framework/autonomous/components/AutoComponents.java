@@ -24,4 +24,9 @@ public class AutoComponents {
         computerVision.init();
         driveTrain.init();
     }
+
+    public static void roboStart() {
+        computerVision.roboStart();
+        driveTrain.roboStart();
+    }
 }

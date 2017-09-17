@@ -108,6 +108,7 @@ public class Autonomous extends LinearOpMode {
 
         //run autonomous
         try {
+            AutoComponents.roboStart();
             a.run();
         } catch (InterruptedException e) {
             e.printStackTrace();

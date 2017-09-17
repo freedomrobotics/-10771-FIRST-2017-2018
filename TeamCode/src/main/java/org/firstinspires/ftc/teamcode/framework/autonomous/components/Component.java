@@ -17,4 +17,5 @@ public class Component {
     }
 
     public void init() {}
+    public void roboStart() {}
 }
