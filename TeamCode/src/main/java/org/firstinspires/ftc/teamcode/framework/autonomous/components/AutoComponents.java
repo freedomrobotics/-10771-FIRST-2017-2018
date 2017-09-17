@@ -10,6 +10,7 @@ public class AutoComponents {
 
     private static Autonomous autonomous;
     public static DriveTrain driveTrain;
+    public static ComputerVision computerVision;
 
     public AutoComponents(Autonomous a) {
         this.autonomous = a;
@@ -17,7 +18,10 @@ public class AutoComponents {
 
 
     public static void init() {
+        computerVision = new ComputerVision(autonomous);
         driveTrain = new DriveTrain(autonomous);
+
+        computerVision.init();
         driveTrain.init();
     }
 }
