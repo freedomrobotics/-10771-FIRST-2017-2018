@@ -2,6 +2,10 @@ package org.firstinspires.ftc.teamcode.framework.teleop.modules;
 
 import org.firstinspires.ftc.teamcode.framework.teleop.Teleop;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by Kevin on 5/29/2017.
  */
@@ -13,36 +17,34 @@ public class DriveTrain extends Module {
 
     @Override
     public void loop() {
-        float joyThr = teleop.getGamepad()[1].left_stick_y;
-        float joyYaw = teleop.getGamepad()[1].right_stick_x;
+        double vD = Math.sqrt(Math.pow(teleop.getGamepad()[1].left_stick_x, 2)+Math.pow(teleop.getGamepad()[1].left_stick_y, 2));
+        double thetaD = Math.atan2(teleop.getGamepad()[1].left_stick_y, teleop.getGamepad()[1].left_stick_x);
+        double vTheta = teleop.getGamepad()[1].right_stick_x;
 
-        if (joyThr > .90f) {
-            joyThr = .90f;
-        } else if (joyThr < -.90f) {
-            joyThr = -.90f;
-        }
 
-        float rightPow = joyThr + (joyYaw * .5f);
-        float leftPow = joyThr + (-joyYaw * .5f);
+        //calculate powers (that's some fun trig stuff)
+        double frontleft = vD * Math.sin(thetaD + Math.PI / 4) + vTheta;
+        double frontright = vD * Math.cos(thetaD + Math.PI / 4) - vTheta;
+        double backleft = vD * Math.cos(thetaD + Math.PI / 4) + vTheta;
+        double backright = vD * Math.sin(thetaD + Math.PI / 4) - vTheta;
 
-        if (rightPow > 1) {
-            leftPow -= (rightPow - 1.0);
-            rightPow = 1.0f;
-        }
-        if (leftPow > 1) {
-            rightPow -= (leftPow - 1.0);
-            leftPow = 1.0f;
-        }
-        if (rightPow < -1) {
-            leftPow += (-1.0 - rightPow);
-            rightPow = -1.0f;
-        }
-        if (leftPow < -1) {
-            rightPow += (-1.0 - leftPow);
-            leftPow = -1.0f;
+        //clamp motor speed values
+
+        List<Double> powers = Arrays.asList(frontleft, frontright, backleft, backright);
+        double minPower = Collections.min(powers);
+        double maxPower = Collections.max(powers);
+        double maxMag = Math.max(Math.abs(minPower), Math.abs(maxPower));
+
+        if (maxMag > 1.0) {   //we need to scale these down, they are too big, and will cause errors!
+            for (int i = 0; i < powers.size(); i++) {
+                powers.set(i, powers.get(i) / maxMag); //will scale the largest to 1, and the smaller ones proportionally.
+            }
         }
 
-        hardware.right.setPower(rightPow);
-        hardware.left.setPower(leftPow);
+        //set all motor powers using the values stored in the powers list.
+        hardware.frontLeft.setPower(powers.get(0));
+        hardware.frontRight.setPower(powers.get(1));
+        hardware.backLeft.setPower(powers.get(2));
+        hardware.backRight.setPower(powers.get(3));
     }
 }
