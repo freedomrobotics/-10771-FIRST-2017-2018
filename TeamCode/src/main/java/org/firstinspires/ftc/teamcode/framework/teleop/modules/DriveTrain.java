@@ -42,7 +42,9 @@ public class DriveTrain extends Module {
             leftPow = -1.0f;
         }
 
-        hardware.right.setPower(rightPow);
-        hardware.left.setPower(leftPow);
+        hardware.right1.setPower(rightPow);
+        hardware.right2.setPower(rightPow);
+        hardware.left1.setPower(leftPow);
+        hardware.left2.setPower(leftPow);
     }
 }
