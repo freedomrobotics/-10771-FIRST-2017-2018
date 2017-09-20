@@ -11,8 +11,11 @@ import org.firstinspires.ftc.teamcode.framework.teleop.Teleop;
  */
 public class Hardware {
 
-    public DcMotor right;
-    public DcMotor left;
+    public DcMotor frontRight;
+    public DcMotor frontLeft;
+    public DcMotor backRight;
+    public DcMotor backLeft;
+
     HardwareMap hwMap;
 
     public Hardware(OpMode o) {
@@ -20,7 +23,9 @@ public class Hardware {
     }
 
     public void init() {
-        right = hwMap.dcMotor.get("right");
-        left = hwMap.dcMotor.get("left");
+        frontRight = hwMap.dcMotor.get("frontright");
+        frontLeft = hwMap.dcMotor.get("frontleft");
+        backRight = hwMap.dcMotor.get("backright");
+        backLeft = hwMap.dcMotor.get("backleft");
     }
 }
