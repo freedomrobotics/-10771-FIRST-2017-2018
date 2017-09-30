@@ -25,7 +25,7 @@ public class ComputerVision extends Component {
     public void init() {
         int cameraMonitorViewId = autonomous.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", autonomous.hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
-        parameters.vuforiaLicenseKey = "ATsODcD/////AAAAAVw2lR...d45oGpdljdOh5LuFB9nDNfckoxb8COxKSFX";
+        parameters.vuforiaLicenseKey = "AahfNHb/////AAAAGdUqmr1YykNCmZWL2siX3N474ykLw2BAmnrelfZYmxe3Tocz+OGYc+DikG/A/KMZvTR7gMNvQb3tpVVvKmO0PjjeX9VJyoik8iY83Ck8bWSP1Zx4aaxMaSQNc8WAAhO/9KSE+VFJr1HEU5tPNRUV+Q4ieJkQZhUPCthku2H/94TluzyWS9hoapRtC+H/ASjwELj0eJyW3JhUgXa1LclaZQQiTps5akHhem/S5g1QvQEANipW/rfVuYuYcjL0E7PPfLo4k3gTB333GeBVswfbFJzPMrlgAIViBFklXywpHnP/5uWbAlrfQVWHOec5++ZBQuwAs4SSTIi+lYKrXnCZ+Nsmu4X0h0zO2gXiftymP+w+";
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
