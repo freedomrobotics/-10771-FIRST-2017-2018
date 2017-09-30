@@ -7,13 +7,17 @@
 // the build definitions, you can place those customizations in this file, but
 // please think carefully as to whether such customizations are really necessary
 // before doing so.
-
-
 // Custom definitions may go here
-
 // Include common definitions from above.
 apply from: '../build.common.gradle'
-
 android {
     buildToolsVersion '25.0.0'
+}
+dependencies {
+    compile files('../libs/guava-19.0.jar')
+    compile files('../libs/jsr305-3.0.2.jar')
+    compile files('../libs/org.slf4j.jar')
+    compile files('../libs/dom4j.jar')
+    compile files('../libs/javassist-3.12.1.GA.jar')
+    compile files('../libs/javax.servlet-api-3.0.1.jar')
 }
