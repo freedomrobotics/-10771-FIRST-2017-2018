@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.framework.teleop.modules;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.framework.teleop.Teleop;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static java.lang.Math.toRadians;
 
 /**
  * Created by Kevin on 5/29/2017.
@@ -17,9 +20,40 @@ public class DriveTrain extends Module {
 
     @Override
     public void loop() {
+
+        boolean robocentric = true;
+        int robocentricCounter = 0;
+
+
+        //do state toggle (left_stick_button to toggle robo/field centric)
+        if (teleop.getGamepad()[1].left_stick_button && robocentricCounter == 0) {
+            robocentric = false;
+            robocentricCounter = 1;
+        } else if (!teleop.getGamepad()[1].left_stick_button && robocentricCounter == 1) {
+            robocentric = false;
+            robocentricCounter = 2;
+        } else if (teleop.getGamepad()[1].left_stick_button && robocentricCounter == 2) {
+            robocentric = true;
+            robocentricCounter = 3;
+        } else if (!teleop.getGamepad()[1].left_stick_button && robocentricCounter == 3) {
+            robocentric = true;
+            robocentricCounter = 0;
+        }
+
+        if (robocentric) {
+            teleop.telemetry.addData("Centric", "Robot");
+        } else {
+            teleop.telemetry.addData("Centric", "Field");
+        }
+
+
         double vD = Math.sqrt(Math.pow(teleop.getGamepad()[1].left_stick_x, 2)+Math.pow(teleop.getGamepad()[1].left_stick_y, 2));
         double thetaD = Math.atan2(teleop.getGamepad()[1].left_stick_y, teleop.getGamepad()[1].left_stick_x);
         double vTheta = teleop.getGamepad()[1].right_stick_x;
+
+        if (!robocentric) { //do additional field-centric calculation
+            vTheta += Math.toRadians(hardware.gyro.getIntegratedZValue()%360);
+        }
 
 
         //calculate powers (that's some fun trig stuff)
