@@ -65,6 +65,7 @@ public class Teleop extends OpMode {
                 m.loop();
             }
         }
+        telemetry.update();
     }
 
     @Override
