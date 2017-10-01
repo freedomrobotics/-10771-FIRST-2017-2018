@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.framework;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -16,6 +17,8 @@ public class Hardware {
     public DcMotor backRight;
     public DcMotor backLeft;
 
+    public ModernRoboticsI2cGyro gyro;
+
     HardwareMap hwMap;
 
     public Hardware(OpMode o) {
@@ -27,5 +30,7 @@ public class Hardware {
         frontLeft = hwMap.dcMotor.get("frontleft");
         backRight = hwMap.dcMotor.get("backright");
         backLeft = hwMap.dcMotor.get("backleft");
+
+        gyro = (ModernRoboticsI2cGyro) hwMap.gyroSensor.get("gyro");
     }
 }
