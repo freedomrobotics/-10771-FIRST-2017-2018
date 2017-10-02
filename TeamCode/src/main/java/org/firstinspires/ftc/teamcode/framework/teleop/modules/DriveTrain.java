@@ -18,8 +18,41 @@ public class DriveTrain extends Module {
         super(t);
     }
 
+    private boolean firstrun;
+    private double lastTime;
+    private double gyroTarget = 0;
+
+    //TODO: Tune these parameters!
+    private final double kP = 0.3;
+    private final double kI = 0.3;
+    private final double kD = 0.05;
+
+    private final double gyroRate = 2; //radians per second at full stick power (yaw)
+
+    private double integral = 0;
+    private double prevError = 0;
+    private double pidCalc(double kP, double kI, double kD, double sp, double c, double timediff) {
+        double error = sp-c;
+        integral += error*timediff;
+        double derivative = (error-prevError)/timediff;
+        double output = kP*error + kI*integral + kD*derivative;
+        prevError = error;
+        return output;
+    }
+
+    @Override
+    public void init() {
+        firstrun = true;
+    }
+
     @Override
     public void loop() {
+
+        if (firstrun) {
+            gyroTarget = Math.toRadians(hardware.gyro.getIntegratedZValue());
+            lastTime = teleop.time;
+            firstrun = false;
+        }
 
         boolean robocentric = true;
         int robocentricCounter = 0;
@@ -47,9 +80,11 @@ public class DriveTrain extends Module {
         }
 
 
+        gyroTarget += teleop.getGamepad()[1].right_stick_x * (teleop.time - lastTime) * gyroRate;
+
         double vD = Math.sqrt(Math.pow(teleop.getGamepad()[1].left_stick_x, 2)+Math.pow(teleop.getGamepad()[1].left_stick_y, 2));
         double thetaD = Math.atan2(teleop.getGamepad()[1].left_stick_y, teleop.getGamepad()[1].left_stick_x);
-        double vTheta = teleop.getGamepad()[1].right_stick_x;
+        double vTheta = pidCalc(kP, kI, kD, gyroTarget, Math.toRadians(hardware.gyro.getIntegratedZValue()), teleop.time - lastTime);
 
         if (!robocentric) { //do additional field-centric calculation
             vTheta += Math.toRadians(hardware.gyro.getIntegratedZValue()%360);
@@ -80,5 +115,8 @@ public class DriveTrain extends Module {
         hardware.frontRight.setPower(powers.get(1));
         hardware.backLeft.setPower(powers.get(2));
         hardware.backRight.setPower(powers.get(3));
+
+
+        lastTime = teleop.time; //update last time to calculate next time value.
     }
 }
