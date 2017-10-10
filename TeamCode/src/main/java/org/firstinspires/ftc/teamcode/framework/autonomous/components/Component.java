@@ -16,6 +16,13 @@ public class Component {
         this.hardware = a.getHardware();
     }
 
+    /**
+     * The method to be run when the INIT button is pressed on the Driver Station
+     */
     public void init() {}
+
+    /**
+     * The method to be run when the autonomous is started.
+     */
     public void roboStart() {}
 }

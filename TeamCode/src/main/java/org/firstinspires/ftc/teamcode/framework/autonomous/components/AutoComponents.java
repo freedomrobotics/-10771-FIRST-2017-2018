@@ -16,7 +16,9 @@ public class AutoComponents {
         this.autonomous = a;
     }
 
-
+    /**
+     * Initializes all components. New components must be registered here.
+     */
     public static void init() {
         computerVision = new ComputerVision(autonomous);
         driveTrain = new DriveTrain(autonomous);
@@ -25,6 +27,9 @@ public class AutoComponents {
         driveTrain.init();
     }
 
+    /**
+     * Runs all components. New components must be added here.
+     */
     public static void roboStart() {
         computerVision.roboStart();
         driveTrain.roboStart();

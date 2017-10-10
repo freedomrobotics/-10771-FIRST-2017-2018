@@ -25,6 +25,10 @@ public class Hardware {
         hwMap = o.hardwareMap;
     }
 
+
+    /**
+     * Initializes all hardware connected to the robot.
+     */
     public void init() {
         frontRight = hwMap.dcMotor.get("frontright");
         frontLeft = hwMap.dcMotor.get("frontleft");

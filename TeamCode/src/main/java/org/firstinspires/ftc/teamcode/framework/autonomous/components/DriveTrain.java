@@ -20,6 +20,11 @@ public class DriveTrain extends Component {
         //initialize drivetrain parameters here
     }
 
+    /**
+     * Drive forward for a number of milliseconds
+     * @param ms The number of milliseconds to drive forward for.
+     * @throws InterruptedException
+     */
     public void forward (int ms) throws InterruptedException {
         DriveParams params = calcParams(1, 0, 0);
         drive(params.vD, params.thetaD, params.vTheta);
@@ -28,6 +33,14 @@ public class DriveTrain extends Component {
         drive(stop.vD, stop.thetaD, stop.vTheta);
     }
 
+    /**
+     * Calculates mechanum drive train parameters.
+     * @param frontback The vector for forwards/backwards
+     * @param leftright The vector for left/right
+     * @param turnspeed The velocity for turning
+     * @return The parameters used in mechanum drive.
+     * @see DriveTrain.DriveParams
+     */
     public DriveTrain.DriveParams calcParams(double frontback, double leftright, double turnspeed) {
         double vD = Math.sqrt(Math.pow(frontback, 2)+Math.pow(leftright, 2));
         double thetaD = Math.atan2(frontback, leftright);
@@ -36,6 +49,12 @@ public class DriveTrain extends Component {
         return new DriveParams(vD, thetaD, vTheta);
     }
 
+    /**
+     * Drives using low level mechanum parameters.
+     * @param vD      The overall speed of the drive
+     * @param thetaD  The arctan of left/right and forward/backwards
+     * @param vTheta  The velocity to turn
+     */
     public void drive(double vD, double thetaD, double vTheta) {
         //calculate powers (that's some fun trig stuff)
         double frontleft = vD * Math.sin(thetaD + Math.PI / 4) + vTheta;
@@ -69,6 +88,12 @@ public class DriveTrain extends Component {
         public double thetaD;
         public double vTheta;
 
+        /**
+         * Store Drive Parameters
+         * @param vD      The overall speed of the drive
+         * @param thetaD  The arctan of left/right and forward/backwards
+         * @param vTheta  The velocity to turn
+         */
         public DriveParams(double vD, double thetaD, double vTheta) {
             this.vD = vD;
             this.thetaD = thetaD;

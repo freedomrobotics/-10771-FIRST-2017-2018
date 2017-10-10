@@ -30,7 +30,7 @@ public class Teleop extends OpMode {
         //REGISTER MODULES HERE
         Reflections reflections = new Reflections("org.firstinspires.ftc.teamcode.framework.teleop.modules"); //package to search
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(org.firstinspires.ftc.teamcode.framework.teleop.Module.class); //get annotated classes
-        for (Class<?> clazz : annotated) {
+        for (Class<?> clazz : annotated) { //loop over each annotated class
             try {
                 modules.add((Module)clazz.getDeclaredConstructor(Teleop.class).newInstance(this)); //add it to the list of modules
             } catch (InstantiationException e) {
@@ -75,6 +75,11 @@ public class Teleop extends OpMode {
         }
     }
 
+    /**
+     * Gets the {@link Hardware} object associated with the robot.
+     * @return  Hardware object
+     * @see     Hardware
+     */
     public Hardware getHardware() {
         return hardware;
     }

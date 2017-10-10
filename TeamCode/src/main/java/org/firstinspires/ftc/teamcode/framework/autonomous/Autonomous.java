@@ -34,7 +34,7 @@ public class Autonomous extends LinearOpMode {
         //REGISTER MODULES HERE
         Reflections reflections = new Reflections("org.firstinspires.ftc.teamcode.framework.autonomous.autocode"); //package to search
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(org.firstinspires.ftc.teamcode.framework.autonomous.AutoCode.class); //get annotated classes
-        for (Class<?> clazz : annotated) {
+        for (Class<?> clazz : annotated) { //loop over each annotated class
             try {
                 AutoProgram a = (AutoProgram)clazz.getDeclaredConstructor(Autonomous.class).newInstance(this); //make an instance of the auto program
                 a.setName(clazz.getAnnotation(org.firstinspires.ftc.teamcode.framework.autonomous.AutoCode.class).name()); // set the name of the auto program
@@ -84,12 +84,12 @@ public class Autonomous extends LinearOpMode {
             }
         }
 
-        AutoProgram a = programs.get(selected);
+        AutoProgram a = programs.get(selected); //get the program, assign it to a
 
         //initialize the auto program...
         try {
             new AutoComponents(this);
-            AutoComponents.init();
+            AutoComponents.init(); //initialize all autonomous components
             a.init();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -116,6 +116,12 @@ public class Autonomous extends LinearOpMode {
         }
     }
 
+
+    /**
+     * Gets the {@link Hardware} object associated with the robot.
+     * @return  Hardware object
+     * @see     Hardware
+     */
     public Hardware getHardware() {
         return this.hardware;
     }

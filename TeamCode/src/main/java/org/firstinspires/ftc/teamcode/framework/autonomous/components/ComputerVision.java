@@ -40,6 +40,11 @@ public class ComputerVision extends Component {
         relicTrackables.activate();
     }
 
+    /**
+     * Get the location of the cubes
+     * @return The location of the cubes
+     * @see CubeLocation
+     */
     public CubeLocation getCubeLocation() {
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         if (vuMark == RelicRecoveryVuMark.LEFT) {
@@ -53,6 +58,13 @@ public class ComputerVision extends Component {
         }
     }
 
+    /**
+     * Get cube location over a longer timespan
+     * @param timeoutmillis The maximum amount of time to spend looking for the location
+     * @return              The location of the cube
+     * @throws InterruptedException
+     * @see CubeLocation
+     */
     public CubeLocation getCubeLocationGaruntee(long timeoutmillis) throws InterruptedException {
         long startTime = System.nanoTime();
         long timeout = timeoutmillis*1000;
