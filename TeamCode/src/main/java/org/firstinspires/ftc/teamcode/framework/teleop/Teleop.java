@@ -5,8 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.framework.Hardware;
+import org.firstinspires.ftc.teamcode.framework.discovery.AnnotatedModuleClassFilter;
+import org.firstinspires.ftc.teamcode.framework.discovery.Discoverer;
 import org.firstinspires.ftc.teamcode.framework.teleop.modules.Module;
-import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -27,21 +28,27 @@ public class Teleop extends OpMode {
         hardware = new Hardware(this);
         hardware.init();
 
-        //REGISTER MODULES HERE
-        Reflections reflections = new Reflections("org.firstinspires.ftc.teamcode.framework.teleop.modules"); //package to search
-        Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(org.firstinspires.ftc.teamcode.framework.teleop.Module.class); //get annotated classes
-        for (Class<?> clazz : annotated) { //loop over each annotated class
+        Discoverer discoverer = Discoverer.getInstance();
+        discoverer.registerFilter(AnnotatedModuleClassFilter.getInstance());
+
+        discoverer.processAllClasses();
+
+        Set<Class<Module>> moduleClasses = discoverer.getModules();
+
+        for (Class<Module> moduleClass: moduleClasses) {
+            Module m = null;
             try {
-                modules.add((Module)clazz.getDeclaredConstructor(Teleop.class).newInstance(this)); //add it to the list of modules
+                m = moduleClass.getDeclaredConstructor(Teleop.class).newInstance(this);
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
             }
+            modules.add(m);
         }
 
         for (Module m : modules) {

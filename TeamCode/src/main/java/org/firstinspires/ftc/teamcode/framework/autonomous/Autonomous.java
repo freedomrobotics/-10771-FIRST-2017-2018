@@ -5,7 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.framework.Hardware;
 import org.firstinspires.ftc.teamcode.framework.autonomous.autocode.AutoProgram;
 import org.firstinspires.ftc.teamcode.framework.autonomous.components.AutoComponents;
-import org.reflections.Reflections;
+import org.firstinspires.ftc.teamcode.framework.discovery.AnnotatedAutoCodeClassFilter;
+import org.firstinspires.ftc.teamcode.framework.discovery.AnnotatedModuleClassFilter;
+import org.firstinspires.ftc.teamcode.framework.discovery.Discoverer;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -30,24 +32,26 @@ public class Autonomous extends LinearOpMode {
         hardware = new Hardware(this);
         hardware.init();
 
+        Discoverer discoverer = Discoverer.getInstance();
+        discoverer.registerFilter(AnnotatedAutoCodeClassFilter.getInstance());
 
-        //REGISTER MODULES HERE
-        Reflections reflections = new Reflections("org.firstinspires.ftc.teamcode.framework.autonomous.autocode"); //package to search
-        Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(org.firstinspires.ftc.teamcode.framework.autonomous.AutoCode.class); //get annotated classes
-        for (Class<?> clazz : annotated) { //loop over each annotated class
+        discoverer.processAllClasses();
+        Set<Class<AutoProgram>> programClasses = discoverer.getAutoPrograms();
+
+        for (Class<AutoProgram> programClass : programClasses) {
+            AutoProgram p = null;
             try {
-                AutoProgram a = (AutoProgram)clazz.getDeclaredConstructor(Autonomous.class).newInstance(this); //make an instance of the auto program
-                a.setName(clazz.getAnnotation(org.firstinspires.ftc.teamcode.framework.autonomous.AutoCode.class).name()); // set the name of the auto program
-                programs.add(a); //add it to the list of modules
+                p = programClass.getDeclaredConstructor(Autonomous.class).newInstance(this);
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
             }
+            programs.add(p);
         }
 
         int selected = 0;
