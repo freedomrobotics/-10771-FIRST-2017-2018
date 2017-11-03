@@ -37,7 +37,23 @@ public class ComputerVision extends Component {
 
     @Override
     public void roboStart() {
+        activate();
+    }
+
+    /**
+     * Activates the relic trackables, starts computer vision.
+     * Will take a few seconds to initialize.
+     */
+    public void activate() {
         relicTrackables.activate();
+    }
+
+    /**
+     * Deactivates the relic trackables, stops computer vision.
+     * Use this method to save battery on the phone after computer vision is completed.
+     */
+    public void deactivate() {
+        relicTrackables.deactivate();
     }
 
     /**
