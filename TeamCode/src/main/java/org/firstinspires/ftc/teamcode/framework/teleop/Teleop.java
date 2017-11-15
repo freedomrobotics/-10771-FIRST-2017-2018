@@ -51,6 +51,9 @@ public class Teleop extends OpMode {
             modules.add(m);
         }
 
+        telemetry.addData("Modules Discovered", modules.size());
+        telemetry.update();
+
         for (Module m : modules) {
             m.init();
         }
@@ -92,7 +95,7 @@ public class Teleop extends OpMode {
     }
 
     public Gamepad[] getGamepad() {
-        Gamepad[] gamepads = null;
+        Gamepad[] gamepads = new Gamepad[3];
         gamepads[1] = gamepad1;
         gamepads[2] = gamepad2;
         return gamepads;

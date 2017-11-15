@@ -51,6 +51,7 @@ public class Discoverer {
             this.context = AppUtil.getInstance().getApplication();
             this.dexFile = new DexFile(this.context.getPackageCodePath());
             this.filters = new LinkedList<ClassFilter>();
+            this.modules = new HashSet<Class>();
             clearIgnoredList();
         }
         catch (Exception e)
