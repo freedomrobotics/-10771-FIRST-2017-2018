@@ -42,6 +42,8 @@ public class Autonomous extends LinearOpMode {
             AutoProgram p = null;
             try {
                 p = programClass.getDeclaredConstructor(Autonomous.class).newInstance(this);
+                String name = programClass.getAnnotation(AutoCode.class).name();
+                p.setName(name);
             } catch (InstantiationException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
